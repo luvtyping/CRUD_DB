@@ -22,7 +22,7 @@ public class PersonDAO {
 
     static {
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -89,7 +89,7 @@ public class PersonDAO {
     public void save(Person person) {
         try {
             PreparedStatement preparedStatement =
-                    connection.prepareStatement("INSERT INTO Person VALUES(1, ?, ?, ?)");
+                    connection.prepareStatement("INSERT INTO Person(name,age,email) VALUES(?, ?, ?)");
 
             preparedStatement.setString(1, person.getName());
             preparedStatement.setInt(2, person.getAge());
@@ -118,8 +118,7 @@ public class PersonDAO {
     }
 
     public void delete(int id) {
-        PreparedStatement preparedStatement =
-                null;
+        PreparedStatement preparedStatement;
         try {
             preparedStatement = connection.prepareStatement("DELETE FROM Person WHERE id=?");
 
