@@ -12,9 +12,12 @@ import java.util.List;
  */
 @Component
 public class PersonDAO {
-    private static final String URL = "jdbc:mysql://192.168.0.91:3306/first_db";
+    private static final String URL = "jdbc:mysql://localhost/first_db";
+//    private static final String USERNAME = "root";
+//    private static final String PASSWORD = "RI43Jkf038fve";
+
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "RI43Jkf038fve";
+    private static final String PASSWORD = "";
 
     private static Connection connection;
 
