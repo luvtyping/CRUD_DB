@@ -12,10 +12,10 @@ import java.util.List;
  */
 @Component
 public class PersonDAO {
-    private static final String URL = "jdbc:mysql://localhost/first_db";
+    private static final String URL = "jdbc:mysql://localhost/Users";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "RI43Jkf038fve";
-//    private static final String PASSWORD = "";
+//    private static final String PASSWORD = "RI43Jkf038fve";
+    private static final String PASSWORD = "";
 
     private static Connection connection;
 
@@ -34,7 +34,8 @@ public class PersonDAO {
     }
 
     public List<Person> index() {
-        List<Person> users = new ArrayList<>();
+        List<Person> people = new ArrayList<>();
+
         String SQL = "SELECT * FROM Person";
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(SQL)) {
@@ -44,23 +45,23 @@ public class PersonDAO {
                 person.setName(resultSet.getString("name"));
                 person.setEmail(resultSet.getString("email"));
                 person.setAge(resultSet.getInt("age"));
-                users.add(person);
+                people.add(person);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return users;
+
+
+        return people;
     }
 
     public Person show(int id) {
-        Person person = null;
+        Person person = new Person();
 
-        String SQL = "SELECT * FROM Person WHERE id=?";
+        String SQL = "SELECT * FROM Person WHERE id=" + id;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL);
              ResultSet resultSet = preparedStatement.executeQuery()) {
-            preparedStatement.setInt(1, id);
             resultSet.next();
-            person = new Person();
             person.setId(resultSet.getInt("id"));
             person.setName(resultSet.getString("name"));
             person.setAge(resultSet.getInt("age"));
@@ -77,6 +78,7 @@ public class PersonDAO {
             preparedStatement.setString(1, person.getName());
             preparedStatement.setInt(2, person.getAge());
             preparedStatement.setString(3, person.getEmail());
+
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -90,6 +92,7 @@ public class PersonDAO {
             preparedStatement.setInt(2, person.getAge());
             preparedStatement.setString(3, person.getEmail());
             preparedStatement.setInt(4, id);
+
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -104,5 +107,6 @@ public class PersonDAO {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
     }
 }
